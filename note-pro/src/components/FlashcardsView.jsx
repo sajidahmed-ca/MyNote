@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Brain,
   Layers,
@@ -13,7 +14,7 @@ import EmptyState from './EmptyState'
 export default function FlashcardsView() {
   const notes = useNoteStore((s) => s.notes)
   const hydrated = useNoteStore((s) => s.hydrated)
-  const openEditor = useNoteStore((s) => s.openEditor)
+  const navigate = useNavigate()
   const [studying, setStudying] = useState(false)
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
@@ -39,7 +40,7 @@ export default function FlashcardsView() {
         title="No flashcards yet"
         desc="Open any note, highlight a passage, and hit “Convert to Flashcard” — cards land here as a study deck."
         action={
-          <button type="button" onClick={() => openEditor(null)} className="btn-secondary">
+          <button type="button" onClick={() => navigate('/')} className="btn-secondary">
             <BookOpen className="size-4" />
             Browse notes
           </button>

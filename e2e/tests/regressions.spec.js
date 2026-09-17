@@ -87,6 +87,22 @@ test.describe('journal + tasks headings', () => {
   })
 })
 
+test.describe('flashcards', () => {
+  test('Browse notes when no deck exists returns to All notes', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'note-pro', 'flashcards are a pro feature')
+    await reset(page)
+    await expectSeeded(page)
+    await page.getByTitle('Enter selection mode').click()
+    await page.getByRole('button', { name: 'Select all visible' }).click()
+    await page.getByRole('button', { name: 'Delete' }).click()
+    await page.getByRole('button', { name: 'Confirm delete' }).click()
+    await goTo(page, '/flashcards')
+    await expect(page.getByRole('heading', { name: 'No flashcards yet' })).toBeVisible()
+    await page.getByRole('button', { name: 'Browse notes' }).click()
+    await expect(page.getByRole('heading', { name: 'Nothing here yet' })).toBeVisible()
+  })
+})
+
 test.describe('note export', () => {
   test('untitled note export filename is sane and downloads', async ({ page }) => {
     await reset(page)
