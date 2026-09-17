@@ -71,6 +71,7 @@ export default function AppShell() {
 
   const style = {
     fontSize: FONT_SIZE_MAP[a11y.fontSize] || '15px',
+    '--fs-editor': FONT_SIZE_MAP[a11y.fontSize] || '15px',
   }
 
   const a11yClasses = [

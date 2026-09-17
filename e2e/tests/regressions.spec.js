@@ -121,6 +121,18 @@ test.describe('dark mode', () => {
   })
 })
 
+test.describe('accessibility font scale', () => {
+  test('editor text scales with the chosen font size', async ({ page }) => {
+    await reset(page)
+    await expectSeeded(page)
+    await page.goto('/#/settings')
+    await page.locator('select', { hasText: 'Medium (15px)' }).selectOption('x-large')
+    await page.goto('/#/')
+    await page.getByText('Atomic Habits', { exact: true }).click()
+    await expect(page.locator('.editor-content').first()).toHaveCSS('font-size', '19px')
+  })
+})
+
 test.describe('note export', () => {
   test('untitled note export filename is sane and downloads', async ({ page }) => {
     await reset(page)

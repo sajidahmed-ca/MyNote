@@ -192,7 +192,8 @@
     @apply mt-4 mb-1.5 text-lg;
   }
   .editor-content {
-    @apply text-[15px] leading-[1.7];
+    @apply leading-[1.7];
+    font-size: var(--fs-editor, 15px);
   }
 }
 

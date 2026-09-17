@@ -33,7 +33,11 @@ const sortNotes = (notes, sortBy, sortDir) => {
   })
 }
 
-const debouncedSync = debounce((notes) => syncToDb(notes), 400)
+let dbDirty = false
+const debouncedSync = debounce((notes) => {
+  syncToDb(notes)
+  dbDirty = false
+}, 700)
 
 export const useNoteStore = create((set, get) => ({
   notes: [],
@@ -103,6 +107,7 @@ export const useNoteStore = create((set, get) => ({
 
   persist: () => {
     const notes = get().notes
+    dbDirty = true
     set({ syncing: true })
     debouncedSync(notes)
     setTimeout(() => set({ syncing: false }), 350)
@@ -328,6 +333,15 @@ export const useNoteStore = create((set, get) => ({
     get().persist()
   },
 }))
+
+/** flush any pending debounced write before the tab goes away */
+const flushPending = () => {
+  if (dbDirty) syncToDb(useNoteStore.getState().notes)
+}
+window.addEventListener('pagehide', flushPending)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') flushPending()
+})
 
 /** ---------- derived selectors ---------- */
 export const selectFilteredNotes = (s) => {
