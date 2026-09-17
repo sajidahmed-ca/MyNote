@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react'
+import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useNoteStore } from '../store/useNoteStore'
 import Sidebar from './Sidebar'
@@ -29,6 +30,44 @@ export default function AppShell() {
   const hydrated = useNoteStore((s) => s.hydrated)
   const a11y = useNoteStore((s) => s.accessibility)
   const theme = useNoteStore((s) => s.theme)
+  const openTemplate = useNoteStore((s) => s.openTemplate)
+  const createNote = useNoteStore((s) => s.createNote)
+  const closeTemplate = useNoteStore((s) => s.closeTemplate)
+
+  useEffect(() => {
+    const onKey = (e) => {
+      const target = e.target
+      const editable =
+        target?.tagName === 'INPUT' ||
+        target?.tagName === 'TEXTAREA' ||
+        target?.isContentEditable
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        document.querySelector('input[placeholder^="Search notes"]')?.focus()
+        return
+      }
+      if (editable) return
+      switch (e.key.toLowerCase()) {
+        case 'n':
+          openTemplate()
+          break
+        case 'b':
+          createNote('book')
+          closeTemplate()
+          break
+        case 'j':
+          createNote('journal')
+          closeTemplate()
+          break
+        case 't':
+          createNote('task')
+          closeTemplate()
+          break
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [openTemplate, createNote, closeTemplate])
 
   const style = {
     fontSize: FONT_SIZE_MAP[a11y.fontSize] || '15px',

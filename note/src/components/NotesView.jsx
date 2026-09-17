@@ -173,7 +173,13 @@ export default function NotesView({ typeFilter }) {
       ? `#${tag}`
       : pinned
         ? 'Pinned notes'
-        : 'All notes'
+        : typeFilter === 'journal'
+          ? 'Journal'
+          : typeFilter === 'task'
+            ? 'Task lists'
+            : typeFilter === 'book'
+              ? 'Book notes'
+              : 'All notes'
 
   const handleShiftSelect = (index) => {
     const from = lastIndex.current ?? index
