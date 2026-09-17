@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { resetApp, createNote, expectSeeded } from '../helpers.js'
+import { resetApp, createNote, expectSeeded, goTo } from '../helpers.js'
 
 const pro = () => test.info().project.name === 'note-pro'
 const reset = (page) => resetApp(page, { pro: pro() })
@@ -11,14 +11,15 @@ test.describe('pro trash flow', () => {
     await resetApp(page, { pro: true })
     await expectSeeded(page)
     await createNote(page, 'TRASH-ME')
+    await page.getByText('TRASH-ME', { exact: true }).click()
     await page.getByTitle('Delete note').click()
-    await page.getByTitle('Delete note').click()
+    await page.getByTitle('Click again to confirm').click()
     await expect(page.getByText('TRASH-ME', { exact: true })).toHaveCount(0)
-    await page.goto('/#/trash')
+    await goTo(page, '/trash')
     await expect(page.getByText('TRASH-ME', { exact: true })).toBeVisible()
-    await page.getByRole('button', { name: 'Restore' }).click()
+    await page.getByRole('button', { name: 'Restore', exact: true }).click()
     await expect(page.getByText('TRASH-ME', { exact: true })).toHaveCount(0)
-    await page.goto('/')
+    await goTo(page, '/')
     await expect(page.getByText('TRASH-ME', { exact: true })).toBeVisible()
   })
 })
@@ -32,6 +33,7 @@ test.describe('pro custom folders', () => {
     await page.getByTitle('New folder').click()
     await page.getByPlaceholder('Folder name').fill('Research')
     await page.keyboard.press('Enter')
+    await page.waitForTimeout(300)
     await expect(page.getByText('Research', { exact: true })).toBeVisible()
     await page.reload()
     await expect(page.getByText('Research', { exact: true })).toBeVisible()
@@ -45,8 +47,8 @@ test.describe('pro custom folders', () => {
     await page.getByPlaceholder('Folder name').fill('Research')
     await page.keyboard.press('Enter')
     await page.getByText('Atomic Habits', { exact: true }).click()
-    await page.getByTitle(/folder/i).first().click()
-    await expect(page.getByText('Research', { exact: true })).toBeVisible()
+    await page.getByTitle('Move to folder').click()
+    await expect(page.getByRole('menuitem', { name: /Research/ })).toBeVisible()
   })
 })
 
@@ -62,7 +64,7 @@ test.describe('shared keyboard shortcuts', () => {
   test('N opens the template launcher from anywhere', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/book-notes')
+    await goTo(page, '/book-notes')
     await page.keyboard.press('n')
     await expect(page.getByRole('heading', { name: 'New note' })).toBeVisible()
   })
@@ -73,14 +75,14 @@ test.describe('journal + tasks headings', () => {
   test('journal page shows its own heading', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/journal')
+    await goTo(page, '/journal')
     await expect(page.getByRole('heading', { name: 'Journal', level: 1 })).toBeVisible()
   })
 
   test('tasks page shows its own heading', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/tasks')
+    await goTo(page, '/tasks')
     await expect(page.getByRole('heading', { name: 'Task lists', level: 1 })).toBeVisible()
   })
 })

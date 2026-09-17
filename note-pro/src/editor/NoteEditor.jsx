@@ -20,7 +20,7 @@ import {
 } from 'lucide-react'
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import { useNoteStore } from '../store/useNoteStore'
-import { TYPE_META, FOLDER_META } from '../constants'
+import { TYPE_META } from '../constants'
 import { downloadJson, timeAgo, stamp } from '../utils/format'
 import MetadataHeader from './MetadataHeader'
 import TaskListEditor from './TaskListEditor'
@@ -54,6 +54,8 @@ export default function NoteEditor() {
   const moveNotes = useNoteStore((s) => s.moveNotes)
   const deleteNotes = useNoteStore((s) => s.deleteNotes)
   const addFlashcard = useNoteStore((s) => s.addFlashcard)
+  const folderLabel = useNoteStore((s) => s.folderLabel)
+  const folderOptions = useNoteStore((s) => s.folderOptions)
 
   const note = notes.find((n) => n.id === editingNoteId)
   const meta = note ? TYPE_META[note.type] : TYPE_META.standard
@@ -220,7 +222,7 @@ export default function NoteEditor() {
 
         <span className="hidden min-w-0 flex-1 truncate px-1 font-mono text-[11px] text-ink-muted md:block">
           {note.folder !== 'uncategorized' &&
-            FOLDER_META[note.folder]?.label}
+            folderLabel(note.folder)}
           {note.folder !== 'uncategorized' ? ' / ' : ''}
           {note.title || 'Untitled note'}
         </span>
@@ -242,10 +244,10 @@ export default function NoteEditor() {
 
           {/* move to folder */}
           <Menu as="div" className="relative">
-            <MenuButton className="flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1.5 text-[12px] font-medium text-ink-secondary transition-colors hover:bg-hover hover:text-ink">
+            <MenuButton title="Move to folder" className="flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1.5 text-[12px] font-medium text-ink-secondary transition-colors hover:bg-hover hover:text-ink">
               <Folder className="size-3.5" />
               <span className="hidden max-w-[90px] truncate sm:inline">
-                {FOLDER_META[note.folder]?.label || 'Folder'}
+                {folderLabel(note.folder) || 'Folder'}
               </span>
               <ChevronDown className="size-3 text-ink-muted" />
             </MenuButton>
@@ -258,13 +260,13 @@ export default function NoteEditor() {
               leaveTo="opacity-0 scale-95"
             >
               <MenuItems className="absolute right-0 z-40 mt-1.5 w-48 rounded-xl border border-line bg-surface p-1 shadow-pop">
-                {Object.entries(FOLDER_META).map(([id, f]) => (
-                  <MenuItem key={id}>
+                {folderOptions().map((f) => (
+                  <MenuItem key={f.id}>
                     <button
                       type="button"
-                      onClick={() => moveNotes([note.id], id)}
+                      onClick={() => moveNotes([note.id], f.id)}
                       className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] transition-colors ${
-                        note.folder === id
+                        note.folder === f.id
                           ? 'bg-accent-soft font-medium text-accent-strong'
                           : 'text-ink-secondary hover:bg-hover hover:text-ink'
                       }`}

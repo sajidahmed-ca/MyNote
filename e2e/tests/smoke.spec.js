@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { resetApp, createNote, expectSeeded } from '../helpers.js'
+import { resetApp, createNote, expectSeeded, goTo } from '../helpers.js'
 
 const pro = () => test.info().project.name === 'note-pro'
 const reset = (page) => resetApp(page, { pro: pro() })
@@ -18,7 +18,7 @@ test.describe('routing + seeded content', () => {
     test(`${route} renders`, async ({ page }) => {
       await reset(page)
       await expectSeeded(page)
-      await page.goto(`/#${route}`)
+      await goTo(page, route)
       await expect(page.getByRole('heading', { name: heading, level: 1 })).toBeVisible()
     })
   }
@@ -26,14 +26,14 @@ test.describe('routing + seeded content', () => {
   test('folder route shows folder label', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/folder/study')
+    await goTo(page, '/folder/study')
     await expect(page.getByRole('heading', { name: 'Study', level: 1 })).toBeVisible()
   })
 
   test('tag route shows tag heading', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/tags/reading')
+    await goTo(page, '/tags/reading')
     await expect(page.getByRole('heading', { name: '#reading', level: 1 })).toBeVisible()
   })
 })
@@ -81,7 +81,7 @@ test.describe('flashcards', () => {
   test('study deck flips and navigates', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/flashcards')
+    await goTo(page, '/flashcards')
     await page.getByRole('button', { name: 'Study deck' }).click()
     await expect(page.getByRole('heading', { name: 'Study mode', level: 1 })).toBeVisible()
     await page.locator('button[style*="preserve-3d"]').click()
@@ -96,7 +96,7 @@ test.describe('upgrade page (free)', () => {
     test.skip(pro(), 'Pro edition shows the dashboard, not the upgrade pitch')
     await reset(page)
     await expectSeeded(page)
-    await page.goto('/#/upgrade')
+    await goTo(page, '/upgrade')
     await expect(page.getByRole('heading', { name: /Upgrade to/ })).toBeVisible()
   })
 })

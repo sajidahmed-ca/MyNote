@@ -9,7 +9,7 @@ import {
   Check,
 } from 'lucide-react'
 import { useNoteStore } from '../store/useNoteStore'
-import { FOLDER_META, DEFAULT_TAG_SUGGESTIONS } from '../constants'
+import { DEFAULT_TAG_SUGGESTIONS } from '../constants'
 import { downloadJson } from '../utils/format'
 
 export default function FloatingActionBar() {
@@ -20,6 +20,7 @@ export default function FloatingActionBar() {
   const addTagsToNotes = useNoteStore((s) => s.addTagsToNotes)
   const clearSelection = useNoteStore((s) => s.clearSelection)
   const exitSelectionMode = useNoteStore((s) => s.exitSelectionMode)
+  const folderOptions = useNoteStore((s) => s.folderOptions)
 
   const [panel, setPanel] = useState(null) // 'move' | 'tag' | null
   const [tagDraft, setTagDraft] = useState('')
@@ -76,12 +77,12 @@ export default function FloatingActionBar() {
             <p className="px-2.5 pb-1 pt-1 font-mono text-[9.5px] uppercase tracking-widest text-slate-400">
               Move {count} {count === 1 ? 'note' : 'notes'} to
             </p>
-            {Object.entries(FOLDER_META).map(([id, f]) => (
+            {folderOptions().map((f) => (
               <button
-                key={id}
+                key={f.id}
                 type="button"
                 onClick={() => {
-                  moveNotes(selectedIds, id)
+                  moveNotes(selectedIds, f.id)
                   setPanel(null)
                 }}
                 className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-[13px] text-slate-200 transition-colors hover:bg-white/10 hover:text-white"

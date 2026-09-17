@@ -13,7 +13,7 @@ import {
   useNoteStore,
   selectFilteredNotes,
 } from '../store/useNoteStore'
-import { TYPE_META, FOLDER_META } from '../constants'
+import { TYPE_META } from '../constants'
 import { plainText, timeAgo } from '../utils/format'
 import NoteCard from './NoteCard'
 import EmptyState from './EmptyState'
@@ -120,6 +120,7 @@ function ListRow({ note, selectMode, selected, onToggleSelect, onOpen, onToggleP
 export default function NotesView({ typeFilter }) {
   const location = useLocation()
   const notes = useNoteStore((s) => s.notes)
+  const folderLabel = useNoteStore((s) => s.folderLabel)
   const hydrated = useNoteStore((s) => s.hydrated)
   const viewMode = useNoteStore((s) => s.viewMode)
   const searchQuery = useNoteStore((s) => s.searchQuery)
@@ -167,7 +168,7 @@ export default function NotesView({ typeFilter }) {
   )
 
   const heading = folder
-    ? FOLDER_META[folder]?.label || 'Folder'
+    ? folderLabel(folder) || 'Folder'
     : tag
       ? `#${tag}`
       : pinned

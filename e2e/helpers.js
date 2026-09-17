@@ -26,6 +26,41 @@ export async function expectSeeded(page) {
   await expect(page.locator('article').first()).toBeVisible({ timeout: 15_000 })
 }
 
+const ROUTE_LINKS = {
+  '/': ['All notes'],
+  '/book-notes': ['Book notes'],
+  '/flashcards': ['Flashcards'],
+  '/pinned': ['Pinned'],
+  '/settings': ['Settings'],
+  '/journal': ['Journal'],
+  '/tasks': ['Task lists'],
+  '/folder/study': ['Study'],
+  '/tags/reading': ['#reading'],
+  '/trash': ['Trash'],
+  '/upgrade': ['Upgrade to Pro', 'Analytics'],
+}
+
+export async function goTo(page, route) {
+  // Navigate (without reloading) through the app's own navigation so the
+  // in-memory store stays authoritative. Reloads would re-hydrate from
+  // IndexedDB and race pending debounced writes.
+  const candidates = ROUTE_LINKS[route]
+  if (!candidates) throw new Error(`no sidebar link mapping for route ${route}`)
+  for (const name of candidates) {
+    const link = page.getByRole('link', { name })
+    if (await link.count()) {
+      await link.first().click()
+      return
+    }
+    const button = page.getByRole('button', { name })
+    if (await button.count()) {
+      await button.first().click()
+      return
+    }
+  }
+  throw new Error(`no sidebar link found for route ${route}`)
+}
+
 export async function createNote(page, title) {
   await page.getByRole('button', { name: 'New Note' }).click()
   await page.getByRole('button', { name: /Standard note/i }).click()

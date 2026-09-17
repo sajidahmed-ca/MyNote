@@ -1,5 +1,6 @@
 import { Pin, PinOff, Brain, CheckCircle2, Circle } from 'lucide-react'
-import { TYPE_META, FOLDER_META } from '../constants'
+import { TYPE_META } from '../constants'
+import { useNoteStore } from '../store/useNoteStore'
 import { plainText, timeAgo } from '../utils/format'
 
 export default function NoteCard({
@@ -14,6 +15,7 @@ export default function NoteCard({
 }) {
   const meta = TYPE_META[note.type] || TYPE_META.standard
   const Icon = meta.icon
+  const folderLabel = useNoteStore((s) => s.folderLabel)
   const text = plainText(note.body || '')
   const done = note.tasks?.filter((t) => t.done).length || 0
   const total = note.tasks?.length || 0
@@ -174,7 +176,7 @@ export default function NoteCard({
         </span>
         <span className="text-ink-muted/30">·</span>
         <span className="font-mono text-[10.5px] text-ink-muted">
-          {FOLDER_META[note.folder]?.label || 'Uncategorized'}
+          {folderLabel(note.folder) || 'Uncategorized'}
         </span>
         {tags.length > 0 && (
           <span className="ml-auto flex items-center gap-1">

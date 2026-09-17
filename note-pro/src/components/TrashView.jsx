@@ -17,19 +17,19 @@ export default function TrashView() {
   const trashed = notes.filter((n) => n.archived)
 
   const restore = (id) => restoreNotes([id])
-  const purge = (id) => {
+  const purge = async (id) => {
     if (window.confirm('Delete this note permanently? This cannot be undone.')) {
-      purgeNotes([id])
+      await purgeNotes([id])
     }
   }
-  const purgeAll = () => {
+  const purgeAll = async () => {
     if (!trashed.length) return
     if (
       window.confirm(
         `Permanently delete ${trashed.length} ${trashed.length === 1 ? 'note' : 'notes'} from trash?`,
       )
     ) {
-      purgeNotes(trashed.map((n) => n.id))
+      await purgeNotes(trashed.map((n) => n.id))
     }
   }
   const restoreAll = () => restoreNotes(trashed.map((n) => n.id))

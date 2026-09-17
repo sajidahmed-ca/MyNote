@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { loadFromDb, syncToDb, persistPrefs, loadPrefs } from '../db/db'
 import { SEED_NOTES } from '../data/seed'
+import { FOLDER_META } from '../constants'
 
 export const uid = () =>
   typeof crypto !== 'undefined' && crypto.randomUUID
@@ -90,6 +91,15 @@ export const useNoteStore = create((set, get) => ({
       ...(savedA11y ? { accessibility: { ...get().accessibility, ...savedA11y } } : {}),
     })
   },
+
+  folderLabel: (id) => FOLDER_META[id]?.label,
+
+  folderOptions: () =>
+    Object.entries(FOLDER_META).map(([id, meta]) => ({
+      id,
+      label: meta.label,
+      dot: meta.dot,
+    })),
 
   persist: () => {
     const notes = get().notes

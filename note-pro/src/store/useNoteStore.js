@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { loadFromDb, syncToDb, persistPrefs, loadPrefs } from '../db/db'
 import { SEED_NOTES } from '../data/seed'
+import { FOLDER_META } from '../constants'
 
 const THEME_STORAGE_KEY = 'mynote-pro-theme'
 
@@ -96,19 +97,43 @@ export const useNoteStore = create((set, get) => ({
     }
     const savedUser = await loadPrefs('user')
     const savedA11y = await loadPrefs('accessibility')
+    const savedFolders = await loadPrefs('customFolders')
     set({
       notes,
       hydrated: true,
       ...(savedUser ? { user: { ...get().user, ...savedUser } } : {}),
       ...(savedA11y ? { accessibility: { ...get().accessibility, ...savedA11y } } : {}),
+      ...(Array.isArray(savedFolders) ? { customFolders: savedFolders } : {}),
     })
   },
+
+  folderLabel: (id) =>
+    get().customFolders.find((f) => f.id === id)?.label || FOLDER_META[id]?.label,
+
+  folderOptions: () => [
+    ...Object.entries(FOLDER_META).map(([id, meta]) => ({
+      id,
+      label: meta.label,
+      dot: meta.dot,
+    })),
+    ...get().customFolders.map((f) => ({ ...f, dot: 'bg-accent/60' })),
+  ],
 
   persist: () => {
     const notes = get().notes
     set({ syncing: true })
     debouncedSync(notes)
     setTimeout(() => set({ syncing: false }), 350)
+  },
+
+  persistNow: async () => {
+    const notes = get().notes
+    set({ syncing: true })
+    try {
+      await syncToDb(notes)
+    } finally {
+      set({ syncing: false })
+    }
   },
 
   /** ---------- creation ---------- */
@@ -146,10 +171,12 @@ export const useNoteStore = create((set, get) => ({
   deleteNotes: (ids) => {
     const idSet = new Set(ids)
     set((s) => ({
-      notes: s.notes.filter((n) => !idSet.has(n.id)),
+      notes: s.notes.map((n) =>
+        idSet.has(n.id) ? { ...n, archived: true, updatedAt: now() } : n,
+      ),
       selectedIds: s.selectedIds.filter((sel) => !idSet.has(sel)),
     }))
-    get().persist()
+    return get().persistNow()
   },
 
   togglePin: (id) => {
@@ -244,16 +271,6 @@ export const useNoteStore = create((set, get) => ({
   },
 
   /** ---------- pro: trash ---------- */
-  archiveNotes: (ids) => {
-    const idSet = new Set(ids)
-    set((s) => ({
-      notes: s.notes.map((n) =>
-        idSet.has(n.id) ? { ...n, archived: true, updatedAt: now() } : n,
-      ),
-    }))
-    get().persist()
-  },
-
   restoreNotes: (ids) => {
     const idSet = new Set(ids)
     set((s) => ({
@@ -261,7 +278,7 @@ export const useNoteStore = create((set, get) => ({
         idSet.has(n.id) ? { ...n, archived: false, updatedAt: now() } : n,
       ),
     }))
-    get().persist()
+    return get().persistNow()
   },
 
   purgeNotes: (ids) => {
@@ -270,11 +287,11 @@ export const useNoteStore = create((set, get) => ({
       notes: s.notes.filter((n) => !idSet.has(n.id)),
       selectedIds: s.selectedIds.filter((sel) => !idSet.has(sel)),
     }))
-    get().persist()
+    return get().persistNow()
   },
 
   /** ---------- pro: custom folders ---------- */
-  addCustomFolder: (label) => {
+  addCustomFolder: async (label) => {
     const clean = label.trim()
     if (!clean) return
     if (get().customFolders.some((f) => f.label.toLowerCase() === clean.toLowerCase())) {
@@ -286,19 +303,20 @@ export const useNoteStore = create((set, get) => ({
         { id: `custom-${uid()}`, label: clean },
       ],
     }))
+    await persistPrefs('customFolders', get().customFolders)
   },
 
-  removeCustomFolder: (id) => {
+  removeCustomFolder: async (id) => {
     set((s) => ({
       customFolders: s.customFolders.filter((f) => f.id !== id),
       notes: s.notes.map((n) =>
         n.folder === id ? { ...n, folder: 'uncategorized', updatedAt: now() } : n,
       ),
     }))
-    get().persist()
+    await persistPrefs('customFolders', get().customFolders)
   },
 
-  renameCustomFolder: (id, label) => {
+  renameCustomFolder: async (id, label) => {
     const clean = label.trim()
     if (!clean) return
     set((s) => ({
@@ -306,6 +324,7 @@ export const useNoteStore = create((set, get) => ({
         f.id === id ? { ...f, label: clean } : f,
       ),
     }))
+    await persistPrefs('customFolders', get().customFolders)
   },
 
   /** ---------- pro: backup & restore ---------- */
