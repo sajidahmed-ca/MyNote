@@ -83,7 +83,7 @@ function ListRow({ note, selectMode, selected, onToggleSelect, onOpen, onToggleP
       </div>
 
       {note.type === 'book' && note.meta?.author && (
-        <span className="hidden font-mono text-[11px] text-sky-700 lg:block">
+        <span className="hidden font-mono text-[11px] text-sky-700 dark:text-sky-300 lg:block">
           {note.meta.author}
         </span>
       )}

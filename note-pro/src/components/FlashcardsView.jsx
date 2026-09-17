@@ -107,7 +107,7 @@ export default function FlashcardsView() {
                       e.stopPropagation()
                       openEditor(deckNote.id)
                     }}
-                    className="chip bg-hover text-ink-muted transition-colors hover:bg-sky-100 hover:text-sky-700"
+                    className="chip bg-hover text-ink-muted transition-colors hover:bg-sky-100 hover:text-sky-700 dark:hover:bg-sky-950/70 dark:hover:text-sky-300"
                   >
                     <BookOpen className="size-3" />
                     {deckNote.title}
@@ -123,7 +123,7 @@ export default function FlashcardsView() {
               style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
             >
               <div className="flex items-center gap-2">
-                <span className="chip bg-emerald-100 text-emerald-700">
+                <span className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                   <Layers className="size-3" />
                   back
                 </span>
@@ -211,7 +211,7 @@ export default function FlashcardsView() {
               <p className="min-w-0 flex-1 truncate text-[13.5px] font-semibold text-ink">
                 {note.title}
               </p>
-              <span className="rounded-full bg-sky-100 px-2 py-0.5 font-mono text-[10px] font-medium text-sky-700">
+              <span className="rounded-full bg-sky-100 px-2 py-0.5 font-mono text-[10px] font-medium text-sky-700 dark:bg-sky-950/70 dark:text-sky-300">
                 {note.type === 'book' ? (note.meta?.author || 'external') : note.type}
               </span>
             </div>

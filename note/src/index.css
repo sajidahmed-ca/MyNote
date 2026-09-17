@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @config '../tailwind.config.js';
 
+@custom-variant dark (&:where(.theme-dark, .theme-dark *));
+
 :root {
   --canvas: #f8fafc;
   --surface: #ffffff;

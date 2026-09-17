@@ -19,7 +19,7 @@ export default function TaskListEditor({ note }) {
   return (
     <div className="mb-6 overflow-hidden rounded-xl border border-line bg-surface shadow-sm">
       <div className="flex items-center gap-2 border-b border-line bg-hover/50 px-4 py-2">
-        <span className="chip bg-emerald-100 text-emerald-700">
+        <span className="chip bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
           <ClipboardCheck className="size-3" />
           Checklist
         </span>

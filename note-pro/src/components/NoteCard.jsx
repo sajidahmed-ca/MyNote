@@ -125,7 +125,7 @@ export default function NoteCard({
 
         {/* book metadata line */}
         {note.type === 'book' && (
-          <p className="mb-1.5 flex items-center gap-1 font-mono text-[11px] text-sky-700">
+          <p className="mb-1.5 flex items-center gap-1 font-mono text-[11px] text-sky-700 dark:text-sky-300">
             {note.meta?.author && (
               <>
                 <span className="max-w-[170px] truncate">{note.meta.author}</span>
@@ -148,7 +148,7 @@ export default function NoteCard({
               <span>
                 {done}/{total} done
               </span>
-              <span className="text-emerald-600">
+              <span className="text-emerald-600 dark:text-emerald-400">
                 {total > 0 ? Math.round((done / total) * 100) : 0}%
               </span>
             </div>
@@ -168,7 +168,7 @@ export default function NoteCard({
           {note.type === 'task' &&
             total > 0 &&
             (done === total ? (
-              <CheckCircle2 className="size-3 text-emerald-600" />
+              <CheckCircle2 className="size-3 text-emerald-600 dark:text-emerald-400" />
             ) : (
               <Circle className="size-3 text-ink-muted" />
             ))}

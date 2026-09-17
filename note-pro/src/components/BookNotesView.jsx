@@ -65,7 +65,7 @@ export default function BookNotesView() {
                 {/* fixed metadata header */}
                 <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line/70 pb-3">
                   <div className="min-w-0">
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-sky-700">
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-sky-700 dark:text-sky-300">
                       Book
                     </p>
                     <h3 className="mt-0.5 truncate text-[16px] font-semibold tracking-tight text-ink">

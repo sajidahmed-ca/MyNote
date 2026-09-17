@@ -12,7 +12,7 @@ export default function MetadataHeader({ note }) {
   return (
     <div className="mb-6 overflow-hidden rounded-xl border border-line bg-surface shadow-sm">
       <div className="flex items-center gap-2 border-b border-line bg-hover/50 px-4 py-2">
-        <span className="chip bg-sky-100 text-sky-700">
+        <span className="chip bg-sky-100 text-sky-700 dark:bg-sky-950/70 dark:text-sky-300">
           <BookOpen className="size-3" />
           Book metadata
         </span>

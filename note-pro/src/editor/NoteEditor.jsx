@@ -215,7 +215,7 @@ export default function NoteEditor() {
         </span>
 
         {note.pinned && (
-          <span className="chip bg-indigo-50 text-accent-strong">
+          <span className="chip bg-accent-soft text-accent-strong">
             <Pin className="size-3" /> pinned
           </span>
         )}
@@ -285,7 +285,7 @@ export default function NoteEditor() {
             onClick={() => togglePin(note.id)}
             className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
               note.pinned
-                ? 'bg-indigo-50 text-accent-strong'
+                ? 'bg-accent-soft text-accent-strong'
                 : 'text-ink-muted hover:bg-hover hover:text-ink'
             }`}
             title={note.pinned ? 'Unpin' : 'Pin'}
@@ -345,7 +345,7 @@ export default function NoteEditor() {
               {note.type === 'journal' && (
                 <>
                   <span className="text-ink-muted/30">·</span>
-                  <span className="chip bg-amber-100 text-amber-700">
+                  <span className="chip bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
                     entry logged
                   </span>
                 </>

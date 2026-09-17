@@ -103,6 +103,24 @@ test.describe('flashcards', () => {
   })
 })
 
+test.describe('dark mode', () => {
+  test('dark theme applies to the app shell', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'note-pro', 'dark mode is a pro feature')
+    await reset(page)
+    await expectSeeded(page)
+    await goTo(page, '/settings')
+    await page.getByRole('button', { name: 'Dark' }).click()
+    await goTo(page, '/book-notes')
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          getComputedStyle(document.querySelector('.theme-dark')).getPropertyValue('--canvas').trim(),
+        ),
+      )
+      .toBe('#0b1120')
+  })
+})
+
 test.describe('note export', () => {
   test('untitled note export filename is sane and downloads', async ({ page }) => {
     await reset(page)
