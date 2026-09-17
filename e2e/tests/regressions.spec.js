@@ -111,17 +111,22 @@ test.describe('dark mode', () => {
     await goTo(page, '/settings')
     await page.getByRole('button', { name: 'Dark' }).click()
     await goTo(page, '/book-notes')
-    await expect
-      .poll(() =>
-        page.evaluate(() =>
-          getComputedStyle(document.querySelector('.theme-dark')).getPropertyValue('--canvas').trim(),
-        ),
-      )
-      .toBe('#0b1120')
+    await expect(page.locator('.theme-dark')).toHaveCSS('background-color', 'rgb(11, 17, 32)')
+  })
+
+  test('accent presets drive accent utilities', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'note-pro', 'accent presets are a pro feature')
+    await reset(page)
+    await expectSeeded(page)
+    const newNote = page.getByRole('button', { name: 'New Note' }).first()
+    await expect(newNote).toHaveCSS('background-color', 'rgb(99, 102, 241)')
+    await goTo(page, '/settings')
+    await page.getByRole('button', { name: 'emerald' }).click()
+    await expect(newNote).toHaveCSS('background-color', 'rgb(16, 185, 129)')
   })
 })
 
-test.describe('accessibility font scale', () => {
+test.describe('accessibility', () => {
   test('editor text scales with the chosen font size', async ({ page }) => {
     await reset(page)
     await expectSeeded(page)
@@ -130,6 +135,21 @@ test.describe('accessibility font scale', () => {
     await page.goto('/#/')
     await page.getByText('Atomic Habits', { exact: true }).click()
     await expect(page.locator('.editor-content').first()).toHaveCSS('font-size', '19px')
+  })
+
+  test('high contrast flips the shell canvas to white', async ({ page }) => {
+    await reset(page)
+    await expectSeeded(page)
+    await page.goto('/#/settings')
+    await page
+      .getByText('High Contrast', { exact: true })
+      .locator('xpath=../..')
+      .getByRole('switch')
+      .click()
+    await expect(page.locator('.a11y-high-contrast')).toHaveCSS(
+      'background-color',
+      'rgb(255, 255, 255)',
+    )
   })
 })
 

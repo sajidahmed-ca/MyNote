@@ -94,7 +94,7 @@ export default function Topbar() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search notes, tags, authors…"
-          className="h-8.5 w-full rounded-lg border border-line bg-canvas py-1.5 pl-9 pr-16 text-[13px] text-ink placeholder:text-ink-muted/70 transition-all focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+          className="h-8.5 w-full rounded-lg border border-line bg-canvas py-1.5 pl-9 pr-16 text-[13px] text-ink placeholder:text-ink-muted/70 transition-all focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
           style={{ height: 34 }}
         />
         <span className="pointer-events-none absolute right-2.5 rounded border border-line bg-surface px-1.5 py-0.5 font-mono text-[10px] text-ink-muted">

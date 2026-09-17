@@ -44,7 +44,7 @@ function TextInput({ value, onChange, type = 'text', placeholder }) {
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+      className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
     />
   )
 }
@@ -82,7 +82,7 @@ function Select({ value, onChange, options }) {
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="h-9 rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+      className="h-9 rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
     >
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>

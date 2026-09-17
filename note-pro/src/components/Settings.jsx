@@ -322,7 +322,7 @@ export default function Settings() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
-            className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+            className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
           />
         </Field>
 
@@ -332,7 +332,7 @@ export default function Settings() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+            className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
           />
         </Field>
 
@@ -425,7 +425,7 @@ export default function Settings() {
             onChange={(e) => setFolderDraft(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && commitFolder()}
             placeholder="New folder name"
-            className="h-9 min-w-0 flex-1 rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+            className="h-9 min-w-0 flex-1 rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
           />
           <button
             type="button"
@@ -526,7 +526,7 @@ export default function Settings() {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Enter current password"
-              className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+              className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
             />
             <button
               type="button"
@@ -549,7 +549,7 @@ export default function Settings() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Enter new password"
-              className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+              className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
             />
             <button
               type="button"
@@ -571,7 +571,7 @@ export default function Settings() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Re-enter new password"
-            className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+            className="h-9 w-full rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
           />
         </Field>
 
@@ -602,7 +602,7 @@ export default function Settings() {
           <select
             value={accessibility.fontSize}
             onChange={(e) => updateAccessibility({ fontSize: e.target.value })}
-            className="h-9 rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+            className="h-9 rounded-lg border border-line bg-canvas px-3 text-[13px] text-ink transition-colors focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
           >
             {[
               { value: 'small', label: 'Small (13px)' },

@@ -1,7 +1,79 @@
 @import 'tailwindcss';
-@config '../tailwind.config.js';
 
 @custom-variant dark (&:where(.theme-dark, .theme-dark *));
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-hover: var(--hover);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-strong: var(--accent-strong);
+
+  --font-sans:
+    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono',
+    monospace;
+
+  --tracking-tightest: -0.02em;
+  --tracking-tight: -0.01em;
+
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-pop: 0 8px 28px rgba(15, 23, 42, 0.1);
+  --shadow-fab: 0 12px 32px rgba(15, 23, 42, 0.28);
+  --shadow-float: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+  --animate-slide-up: slide-up 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: fade-in 0.18s ease-out both;
+  --animate-scale-in: scale-in 0.16s ease-out both;
+  --animate-pop-in: pop-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 24px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94) translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+}
 
 :root {
   --canvas: #f8fafc;
@@ -15,6 +87,7 @@
   --accent-hover: #4f46e5;
   --accent-soft: #e0e7ff;
   --accent-strong: #4338ca;
+  --accent-glow: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 @layer base {
@@ -49,7 +122,7 @@
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
+    scrollbar-color: var(--line) transparent;
   }
 }
 
@@ -62,13 +135,13 @@
     background: transparent;
   }
   .nice-scroll::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: var(--line);
     border-radius: 8px;
     border: 2px solid transparent;
     background-clip: content-box;
   }
   .nice-scroll::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: var(--ink-muted);
     border: 2px solid transparent;
     background-clip: content-box;
   }
@@ -99,10 +172,10 @@
     @apply text-accent-strong underline underline-offset-2;
   }
   .editor-content code {
-    @apply rounded bg-hover px-1.5 py-0.5 font-mono text-[12.5px] text-ink-secondary;
+    @apply rounded bg-hover px-1.5 py-0.5 font-mono text-[12.5px] text-ink-secondary dark:bg-slate-800 dark:text-slate-300;
   }
   .editor-content pre {
-    @apply my-2 rounded-lg bg-ink p-3 font-mono text-[12.5px] leading-relaxed text-slate-100;
+    @apply my-2 rounded-lg bg-ink p-3 font-mono text-[12.5px] leading-relaxed text-slate-100 dark:bg-slate-900;
   }
   .editor-content pre code {
     @apply bg-transparent p-0 text-inherit;

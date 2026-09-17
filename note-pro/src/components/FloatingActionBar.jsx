@@ -73,7 +73,7 @@ export default function FloatingActionBar() {
       <div className="fixed bottom-6 left-1/2 z-50 animate-slide-up">
         {/* popover panels */}
         {panel === 'move' && (
-          <div className="absolute bottom-full left-0 mb-3 w-56 animate-pop-in rounded-xl border border-white/10 bg-[#0F172A] p-1.5 shadow-fab">
+          <div className="absolute bottom-full left-0 mb-3 w-56 animate-pop-in rounded-xl border border-white/10 bg-[#0F172A] dark:bg-slate-800 p-1.5 shadow-fab">
             <p className="px-2.5 pb-1 pt-1 font-mono text-[9.5px] uppercase tracking-widest text-slate-400">
               Move {count} {count === 1 ? 'note' : 'notes'} to
             </p>
@@ -96,7 +96,7 @@ export default function FloatingActionBar() {
         )}
 
         {panel === 'tag' && (
-          <div className="absolute bottom-full left-0 mb-3 w-64 animate-pop-in rounded-xl border border-white/10 bg-[#0F172A] p-2 shadow-fab">
+          <div className="absolute bottom-full left-0 mb-3 w-64 animate-pop-in rounded-xl border border-white/10 bg-[#0F172A] dark:bg-slate-800 p-2 shadow-fab">
             <p className="px-1.5 pb-1.5 pt-0.5 font-mono text-[9.5px] uppercase tracking-widest text-slate-400">
               Tag {count} {count === 1 ? 'note' : 'notes'}
             </p>
@@ -124,7 +124,7 @@ export default function FloatingActionBar() {
         )}
 
         {/* bar itself */}
-        <div className="flex items-center gap-0.5 rounded-full bg-[#0F172A] px-2 py-1.5 shadow-fab">
+        <div className="flex items-center gap-0.5 rounded-full bg-[#0F172A] dark:bg-slate-800 px-2 py-1.5 shadow-fab">
           <span className="ml-1.5 mr-1 flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 font-mono text-[11px] font-medium text-white">
             {count} selected
           </span>

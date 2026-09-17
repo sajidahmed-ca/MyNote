@@ -126,7 +126,7 @@ export default function LicenseGate() {
                     placeholder="v1.xxxxxxxxxxxx….yyyyyyyy"
                     autoFocus
                     spellCheck={false}
-                    className="h-11 w-full rounded-xl border border-line bg-canvas pl-10 pr-3 font-mono text-[12px] text-ink placeholder:text-ink-muted/50 transition-all focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]"
+                    className="h-11 w-full rounded-xl border border-line bg-canvas pl-10 pr-3 font-mono text-[12px] text-ink placeholder:text-ink-muted/50 transition-all focus:border-accent focus:bg-surface focus:shadow-[0_0_0_3px_var(--accent-glow)]"
                   />
                 </div>
               </label>
