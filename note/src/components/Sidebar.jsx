@@ -105,7 +105,8 @@ export default function Sidebar() {
   const tags = allTags(visible)
 
   const isFolderActive = (id) => location.pathname === `/folder/${id}`
-  const isTagActive = (name) => location.pathname === `/tags/${name}`
+  const isTagActive = (name) =>
+    location.pathname === `/tags/${encodeURIComponent(name)}`
 
   return (
     <aside className="flex w-[260px] shrink-0 flex-col border-r border-line bg-surface">

@@ -50,7 +50,7 @@ export default function FlashcardsView() {
   }
 
   if (studying) {
-    const card = flat[index]
+    const card = flat[Math.min(index, Math.max(flat.length - 1, 0))]
     const deckNote = decks.find((d) => d.cards.some((c) => c.id === card.id))?.note
     const next = () => {
       setFlipped(false)

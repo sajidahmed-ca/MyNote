@@ -69,7 +69,7 @@ export default function Topbar() {
   const doExport = () => {
     downloadJson(
       `mynote-export-${new Date().toISOString().slice(0, 10)}.json`,
-      notes,
+      notes.filter((n) => !n.archived),
     )
   }
 

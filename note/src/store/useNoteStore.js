@@ -55,7 +55,6 @@ export const useNoteStore = create((set, get) => ({
   templateOpen: false,
   editorOpen: false,
   editingNoteId: null,
-  editorDraftTitle: '',
 
   user: {
     name: 'Sajid Karim',
@@ -215,7 +214,7 @@ export const useNoteStore = create((set, get) => ({
   openTemplate: () => set({ templateOpen: true }),
   closeTemplate: () => set({ templateOpen: false }),
   openEditor: (id) =>
-    set({ editorOpen: true, editingNoteId: id, editorDraftTitle: '' }),
+    set({ editorOpen: true, editingNoteId: id }),
   closeEditor: () => set({ editorOpen: false, editingNoteId: null }),
 
   setSearchQuery: (q) => set({ searchQuery: q }),

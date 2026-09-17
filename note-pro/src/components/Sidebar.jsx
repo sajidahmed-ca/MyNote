@@ -15,6 +15,7 @@ import {
   Crown,
   X,
   Check,
+  Pencil,
 } from 'lucide-react'
 import { useNoteStore, allTags } from '../store/useNoteStore'
 import { useLicenseStore } from '../store/useLicenseStore'
@@ -144,7 +145,7 @@ function FolderLink({ id, label, dot, count, active, onDelete, onRename }) {
             className="size-5 rounded-md text-ink-muted hover:bg-hover hover:text-ink"
             title="Rename"
           >
-            <Check className="size-3" />
+            <Pencil className="size-3" />
           </button>
           <button
             type="button"
@@ -187,7 +188,8 @@ export default function Sidebar() {
   const tags = allTags(visible)
 
   const isFolderActive = (id) => location.pathname === `/folder/${id}`
-  const isTagActive = (name) => location.pathname === `/tags/${name}`
+  const isTagActive = (name) =>
+    location.pathname === `/tags/${encodeURIComponent(name)}`
 
   const folderList = [
     ...Object.entries(FOLDER_META).map(([id, meta]) => ({

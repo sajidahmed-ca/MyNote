@@ -65,7 +65,6 @@ export const useNoteStore = create((set, get) => ({
   templateOpen: false,
   editorOpen: false,
   editingNoteId: null,
-  editorDraftTitle: '',
 
   theme: readStoredTheme() || { mode: 'light', accent: 'indigo' },
   customFolders: [],
@@ -245,7 +244,7 @@ export const useNoteStore = create((set, get) => ({
   openTemplate: () => set({ templateOpen: true }),
   closeTemplate: () => set({ templateOpen: false }),
   openEditor: (id) =>
-    set({ editorOpen: true, editingNoteId: id, editorDraftTitle: '' }),
+    set({ editorOpen: true, editingNoteId: id }),
   closeEditor: () => set({ editorOpen: false, editingNoteId: null }),
 
   setSearchQuery: (q) => set({ searchQuery: q }),
@@ -336,11 +335,10 @@ export const useNoteStore = create((set, get) => ({
   importBackup: async (notesToImport) => {
     if (!Array.isArray(notesToImport) || !notesToImport.length) return false
     const nowTs = now()
-    const existing = new Set(get().notes.map((n) => n.id))
     const clean = notesToImport
       .filter((n) => n && typeof n === 'object' && n.title !== undefined)
       .map((n) => ({
-        id: existing.has(n.id) ? uid() : n.id,
+        id: n.id || uid(),
         title: n.title || 'Untitled note',
         type: n.type || 'standard',
         folder: n.folder || 'uncategorized',
@@ -354,7 +352,10 @@ export const useNoteStore = create((set, get) => ({
         createdAt: n.createdAt || nowTs,
         updatedAt: n.updatedAt || nowTs,
       }))
-    set((s) => ({ notes: [...clean, ...s.notes] }))
+    const imported = new Set(clean.map((n) => n.id))
+    set((s) => ({
+      notes: [...clean, ...s.notes.filter((n) => !imported.has(n.id))],
+    }))
     get().persist()
     return true
   },
