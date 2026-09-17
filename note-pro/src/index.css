@@ -1,0 +1,237 @@
+@import 'tailwindcss';
+@config '../tailwind.config.js';
+
+:root {
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --hover: #f1f5f9;
+  --line: #e2e8f0;
+  --ink: #0f172a;
+  --ink-secondary: #475569;
+  --ink-muted: #64748b;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-soft: #e0e7ff;
+  --accent-strong: #4338ca;
+}
+
+.theme-dark {
+  --canvas: #0b1120;
+  --surface: #111827;
+  --hover: #1e293b;
+  --line: #334155;
+  --ink: #f1f5f9;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --accent-soft: rgba(99, 102, 241, 0.18);
+}
+
+/* accent presets (light) */
+[data-accent='emerald'] {
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --accent-soft: #d1fae5;
+  --accent-strong: #047857;
+}
+[data-accent='rose'] {
+  --accent: #f43f5e;
+  --accent-hover: #e11d48;
+  --accent-soft: #ffe4e6;
+  --accent-strong: #be123c;
+}
+[data-accent='amber'] {
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --accent-soft: #fef3c7;
+  --accent-strong: #b45309;
+}
+[data-accent='sky'] {
+  --accent: #0ea5e9;
+  --accent-hover: #0284c7;
+  --accent-soft: #e0f2fe;
+  --accent-strong: #0369a1;
+}
+[data-accent='violet'] {
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --accent-soft: #ede9fe;
+  --accent-strong: #6d28d9;
+}
+
+/* accent presets (dark) */
+.theme-dark[data-accent='emerald'] {
+  --accent: #34d399;
+  --accent-hover: #10b981;
+  --accent-soft: rgba(16, 185, 129, 0.2);
+  --accent-strong: #6ee7b7;
+}
+.theme-dark[data-accent='rose'] {
+  --accent: #fb7185;
+  --accent-hover: #f43f5e;
+  --accent-soft: rgba(244, 63, 94, 0.2);
+  --accent-strong: #fda4af;
+}
+.theme-dark[data-accent='amber'] {
+  --accent: #fbbf24;
+  --accent-hover: #f59e0b;
+  --accent-soft: rgba(245, 158, 11, 0.2);
+  --accent-strong: #fcd34d;
+}
+.theme-dark[data-accent='sky'] {
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --accent-soft: rgba(14, 165, 233, 0.2);
+  --accent-strong: #7dd3fc;
+}
+.theme-dark[data-accent='violet'] {
+  --accent: #a78bfa;
+  --accent-hover: #8b5cf6;
+  --accent-soft: rgba(139, 92, 246, 0.2);
+  --accent-strong: #c4b5fd;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans text-sm;
+    line-height: 1.55;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold text-ink tracking-tight;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    outline: none;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+}
+
+@layer components {
+  .nice-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .nice-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .nice-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .nice-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium;
+  }
+
+  .icon-btn {
+    @apply flex size-8 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-hover hover:text-ink;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-hover disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-surface px-3.5 py-2 text-sm font-medium text-ink-secondary transition-colors hover:bg-hover hover:text-ink;
+  }
+
+  .editor-content ul {
+    @apply my-1.5 list-disc space-y-0.5 pl-5;
+  }
+  .editor-content ol {
+    @apply my-1.5 list-decimal space-y-0.5 pl-5;
+  }
+  .editor-content a {
+    @apply text-accent-strong underline underline-offset-2;
+  }
+  .editor-content code {
+    @apply rounded bg-hover px-1.5 py-0.5 font-mono text-[12.5px] text-ink-secondary;
+  }
+  .editor-content pre {
+    @apply my-2 rounded-lg bg-ink p-3 font-mono text-[12.5px] leading-relaxed text-slate-100;
+  }
+  .editor-content pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+  .editor-content blockquote {
+    @apply my-2 border-l-2 border-accent-soft bg-hover/60 px-3 py-1 text-ink-secondary;
+  }
+  .editor-content h1 {
+    @apply my-3 text-xl font-bold;
+  }
+  .editor-content h2 {
+    @apply mt-4 mb-1.5 text-lg;
+  }
+  .editor-content {
+    @apply text-[15px] leading-[1.7];
+  }
+}
+
+@layer base {
+  /* ---------- accessibility settings ---------- */
+  .a11y-reduced-motion *,
+  .a11y-reduced-motion *::before,
+  .a11y-reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .a11y-high-contrast {
+    --canvas: #ffffff;
+    --surface: #ffffff;
+    --hover: #e2e8f0;
+    --line: #0f172a;
+    --ink: #000000;
+    --ink-secondary: #1e293b;
+    --ink-muted: #334155;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-soft: #dbeafe;
+    --accent-strong: #1e3a8a;
+  }
+
+  .a11y-dyslexia-font {
+    font-family: 'OpenDyslexic', 'Comic Sans MS', 'Trebuchet MS', sans-serif !important;
+  }
+
+  .a11y-compact section,
+  .a11y-compact .p-3,
+  .a11y-compact .p-5 {
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+  }
+
+  .a11y-focus :focus-visible {
+    outline: 3px solid var(--accent) !important;
+    outline-offset: 2px !important;
+  }
+}
